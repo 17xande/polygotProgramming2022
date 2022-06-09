@@ -1,31 +1,29 @@
-// enum RSEnum {
-//     Foo(i32),
-//     Bar(String),
-//     Baz(Vec<String>),
-// }
-
-fn main() {
-    let foo = Some(5);
-
-    if let Some(value) = foo {
-
+fn error_me(throw: bool) -> Result<(), usize> {
+    if throw {
+        return Err(7);
     }
 
-    match foo {
-        Some(value) => println!("{}", value),
-        None => println!("None"),
+    return Ok(());
+}
+
+fn main() -> Result<(), usize> {
+    let value = match error_me(true) {
+        Err(e) => return Err(e),
+        Ok(v) => v,
+    };
+
+    // The above can also be achieved with this shorthand:
+    let value = error_me(true)?;
+    // This allows us to get rid of the "if err" construct thing.
+    // The limitation here is that this function needs to return the same
+    // thing as the error_me function.
+
+    // Another way of doing it:
+    if error_me(false).is_ok() {
+        // do something
     }
 
-    // Closure, like JS's .map.
-    foo.map(|x| {
-    });
-
-    foo.filter(|x| *x < 10);
-
-    // match foo {
-    //     RSEnum::Foo(value) => println!("Foo: {}", value),
-    //     RSEnum::Bar(value) => println!("Bar: {}", value),
-    //     RSEnum::Baz(value) => println!("Baz: {:?}", value),
-    // }
-
+    // Also look at .unwrap_or(); .expext(); .unwrap()
+    
+    return Ok(value)
 }
