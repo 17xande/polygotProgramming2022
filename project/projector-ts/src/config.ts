@@ -14,7 +14,7 @@ export type Config = {
   pwd: string,
 }
 
-export default function getConfig(opts: Opts) {
+export default function getConfig(opts: Opts): Config {
   return {
     pwd: getPwd(opts),
     config: config(opts),
